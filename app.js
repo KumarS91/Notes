@@ -1,13 +1,26 @@
 const chalk = require('chalk');
 const yargs = require('yargs');
+const { addNote, removeNote, listNotes, readNote } = require('./notes');
 
 
 //Setting yargs command to add Note
 yargs.command({
 	command: 'add',
 	describe: 'For adding Notes',
-	handler: function () {
-		console.log('Notes added!')
+	builder: {
+		title: {
+			describe: "Title of the note ",
+			demandOption: true,
+			type: "string",
+		},
+		body: {
+			describe: 'Body of the note',
+			demandOption: true,
+			type: 'string',
+		}
+	},
+	handler({ title, body }) {
+		addNote(title, body);
 	}
 })
 
@@ -15,8 +28,15 @@ yargs.command({
 yargs.command({
 	command: 'remove',
 	describe: 'For removing Notes',
-	handler: function () {
-		console.log('Notes removed!')
+	builder: {
+		title: {
+			describe: "Title of the note to remove",
+			demandOption: true,
+			type: 'string',
+		}
+	},
+	handler({ title }) {
+		removeNote(title);
 	}
 })
 
@@ -24,8 +44,15 @@ yargs.command({
 yargs.command({
 	command: 'read',
 	describe: 'For reading Notes',
-	handler: function () {
-		console.log('Read a particular note!')
+	builder: {
+		title: {
+			describe: 'Note you wanna search',
+			demandOption: true,
+			type: 'string',
+		}
+	},
+	handler({ title }) {
+		readNote(title);
 	}
 })
 
@@ -33,10 +60,12 @@ yargs.command({
 yargs.command({
 	command: 'list',
 	describe: 'To list Notes',
-	handler: function () {
-		console.log('List all notes!')
+	handler() {
+		listNotes();
 	}
 })
 
 
-console.log(yargs.argv);
+// to parse the argv. we can use yargs.argv
+yargs.parse();
+// console.log(yargs.argv);
