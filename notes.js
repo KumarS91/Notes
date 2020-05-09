@@ -1,7 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk');
 
-//Function for adding notes
+//Function for adding note
 const addNote = (title, body) => {
 	const notes = loadNotes();
 	console.log("lll", notes)
@@ -19,6 +19,7 @@ const addNote = (title, body) => {
 
 }
 
+//Function for removing note
 const removeNote = (title) => {
 	const notes = loadNotes();
 	const notesToKeep = notes.filter(note => note.title !== title);
@@ -32,6 +33,8 @@ const removeNote = (title) => {
 
 }
 
+
+//Function for listing notes
 const listNotes = () => {
 	const notes = loadNotes();
 	if (notes.length > 0) {
@@ -43,6 +46,7 @@ const listNotes = () => {
 }
 
 
+//Function for reading a specific note
 const readNote = (title) => {
 	const notes = loadNotes();
 	const noteToDisplay = notes.find(note => note.title === title);
@@ -52,13 +56,13 @@ const readNote = (title) => {
 		console.log(chalk.red.inverse.bold('There is no note matches your search!'))
 }
 
-
+//to save note
 const saveNote = (notes) => {
 	const stringifyNotes = JSON.stringify(notes);
 	fs.writeFileSync('notes.json', stringifyNotes);
 }
 
-//Function for load notes
+//Function for loading notes
 const loadNotes = () => {
 	try {
 		const dataBuffer = fs.readFileSync('notes.json');
